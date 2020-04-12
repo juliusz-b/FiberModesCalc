@@ -7,7 +7,7 @@ function [E_comp, H_comp, r_s, fi_s] = ModeSolver(lambda, a, b, A, ML, phase, n_
 %ML - when LP is calculated ML(1) = m and ML(2) = l. In other cases: ML(1)= m and ML(2) = 1;
 %phase - initial phase for calculations
 %n_s(1) - ncore; n_s(2) - ncladd
-%type: 'LP' or 'hybrid'
+%type: "LP" or "hybrid"
 
 %%% Ph. cons.
 e0 = 8.854187e-12;
@@ -34,7 +34,7 @@ end
 u = @(beta) a*sqrt(k^2*ncore^2-beta.^2);
 w = @(beta) a*sqrt(beta.^2 - k^2*nclad^2);
 %%% dispersion equation
-if type == 'LP'
+if type == "LP"
     if m==0
         equation = @(beta) ((besselj(0,u(beta)))./(u(beta).*(besselj(1,u(beta)))) - (besselk(0,w(beta)))./(w(beta).*(besselk(1,w(beta)))));
     elseif m==1
@@ -42,7 +42,7 @@ if type == 'LP'
     else
         equation = @(beta) ((besselj(m,u(beta)))./(u(beta).*(besselj(m-1,u(beta)))) + (besselk(m,w(beta)))./(w(beta).*(besselk(m-1,w(beta)))));
     end
-elseif type == 'hybrid'
+elseif type == "hybrid"
     equation = @(beta) (besseljDerivative(m, u(beta))./(u(beta).*besselj(m, u(beta))) + ( (besselkDerivative(m, w(beta)))./(w(beta).*besselk(m, w(beta))) ) ).*(besseljDerivative(m, u(beta))./(u(beta).*besselj(m, u(beta))) + (nclad/ncore)^2*( (besselkDerivative(m, w(beta)))./(w(beta).*besselk(m, w(beta))) ) )-m^2*(1./(u(beta).^2)+1./(w(beta).^2)).*(1./(u(beta).^2)+(nclad/ncore)^2*1./(w(beta).^2));
 else
     error('Wrong mode type!');
