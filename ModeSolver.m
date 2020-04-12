@@ -50,7 +50,7 @@ end
 %%% mode search
 mode_beta=[];
 for bet=beta_range(1)+0.01:0.001:beta_range(2)-0.01
-    mode_beta((beta_range(1)+0.01:0.001:beta_range(2)-0.01)==bet) = fsolve(equation,[bet]);
+    mode_beta((beta_range(1)+0.01:0.001:beta_range(2)-0.01)==bet) = fsolve(equation,[bet], optimoptions('fsolve', 'Display', 'off'));
 end
 mode_beta(mode_beta<beta_range(1))=[];
 mode_beta(mode_beta>beta_range(2))=[];
@@ -66,9 +66,12 @@ figure();
 betas = [beta_range(1):.001:beta_range(2)];
 plot(betas, equation(betas), 'linewidth', 3);
 hold on;
-plot(mode_beta, equation(mode_beta),'o', 'linewidth', 3);ylim([-20 20]);xlim(beta_range);
-xlabel('\beta');ylabel('Dispersion equation value');
+plot(mode_beta, equation(mode_beta),'o', 'linewidth', 3);
+plot(mode_beta(l), equation(mode_beta(l)),'+', 'linewidth', 1.6, 'markersize', 10, 'color', 'black');
+ylim([-1 1]);xlim(beta_range);
+xlabel('\beta');ylabel('Dispersion equation value');grid on;
 set(gca, 'fontsize', 15);
+legend({'Disp. eq.', 'Found betas', 'Chosen beta'}, 'location', 'best');
 %%% choosing beta
 beta = mode_beta(l);
 %%% calculating C as it is shown in 10.1016/B978-0-12-525096-2.X5000-4
