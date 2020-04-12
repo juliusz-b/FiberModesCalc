@@ -1,39 +1,29 @@
-clear all;clc;%close all;
+clear all;clc;close all;
 a = 20.3/2;
 neff = 1.447;
 nclad = 1.4440;
-ncore = nclad+8e-3;DELTA=(ncore-nclad)/ncore*100;%1.4513
+ncore = 1.4513;DELTA=(ncore-nclad)/ncore*100;%1.4513
 lambda = 1;
-%omega = 2*pi*f;
 e0 = 8.854187e-12;
 m0 = 4*pi*1e-7;
 LP_type = [3,1];
 m=LP_type(1);l=LP_type(2);
 
-k = 2*pi/(lambda);LS=physconst('lightspeed');
+k = 2*pi/(lambda);
 beta_range = [k*nclad k*ncore];
-c=LS;
-omega = 2*pi/(lambda)* LS;
+c=physconst('lightspeed');
+omega = 2*pi/(lambda)* c;
 V = a*k*(ncore^2-nclad^2)^0.5;
 if m==0
-    Xm = @(m,w) (-besselk(1,w))./(w.*besselk(0,w));
-    Ym = @(m,u) (-besselj(1,u))./(u.*besselj(0,u));
     besselkDerivative = @(m, x) -besselk(1,x);
     besseljDerivative = @(m, x) -besselj(1,x);
 else
-    Xm = @(m,w) (-0.5*(besselk(m-1,w)+besselk(m+1,w)))./(w.*besselk(m,w));
-    Ym = @(m,u) (0.5*(besselj(m-1,u)-besselj(m+1,u)))./(u.*besselj(m,u));
     besselkDerivative = @(m, x) (-0.5*(besselk(m-1,x)+besselk(m+1,x)));
     besseljDerivative = @(m, x) (0.5*(besselj(m-1,x)-besselj(m+1,x)));
 end
 u = @(beta) a*sqrt(k^2*ncore^2-beta.^2);
 w = @(beta) a*sqrt(beta.^2 - k^2*nclad^2);
 B = @(beta) (w(beta).^2)./(u(beta).^2+w(beta).^2);
-
-syms bet
-equation1 = @(w) ((besselj(0,sqrt(V^2-w.^2)))./(sqrt(V^2-w.^2).*(besselj(1,sqrt(V^2-w.^2)))) - (besselk(0,w))./(w.*(besselk(1,w))));
-equation2 = @(w) ((besselj(1,sqrt(V^2-w.^2)))./(sqrt(V^2-w.^2).*(besselj(0,sqrt(V^2-w.^2)))) + (besselk(1,w))./(w.*(besselk(0,w))));
-equation3 = @(w) ((besselj(m,sqrt(V^2-w.^2)))./(sqrt(V^2-w.^2).*(besselj(m-1,sqrt(V^2-w.^2)))) + (besselk(m,w))./(w.*(besselk(m-1,w))));
 
 if m==0
    equation = @(beta) ((besselj(0,u(beta)))./(u(beta).*(besselj(1,u(beta)))) - (besselk(0,w(beta)))./(w(beta).*(besselk(1,w(beta)))));
