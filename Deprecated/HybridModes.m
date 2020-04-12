@@ -14,7 +14,7 @@ k = 2*pi/(lambda);LS=physconst('lightspeed');
 c=LS;
 omega = k * LS;
 V = a*k*(ncore^2-nclad^2)^0.5;
-m=2;
+m=1;
 if m==0
     Xm = @(m,w) (-besselk(1,w))./(w.*besselk(0,w));
     Ym = @(m,u) (-besselj(1,u))./(u.*besselj(0,u));

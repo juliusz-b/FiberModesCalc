@@ -73,7 +73,7 @@ set(gca, 'fontsize', 15);
 beta = mode_beta(l);
 %%% calculating C as it is shown in 10.1016/B978-0-12-525096-2.X5000-4
 C=-A*beta/omega/m0*(m*(1/(u(beta)^2)+1/(w(beta^2)))/((besseljDerivative(m,u(beta))/(u(beta)*besselj(m,u(beta)))) + (besselkDerivative(m,w(beta))/(w(beta)*besselk(m,w(beta))))));
-r_s = linspace(0.0001, b, 100);fi_s = linspace(0.0001, 2*pi, 100);
+r_s = linspace(0.0001, b, 250);fi_s = linspace(0.0001, 2*pi, 250);
 P = [];Ez = [];E=[];H=[];E_comp=[];H_comp=[];
 for r=r_s
     
