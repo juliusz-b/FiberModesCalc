@@ -20,13 +20,17 @@ l = ML(2);
 %%%
 k = 2*pi/(lambda);
 beta_range = [k*nclad k*ncore];
-omega = 2*pi/(lambda)* c;
+omega = k* c;
 V = a*k*(ncore^2-nclad^2)^0.5;
 %%% Bessel's derivatives definition
 if m==0
+    %Xm = @(m,w) (-besselk(1,w))./(w.*besselk(0,w));
+    %Ym = @(m,u) (-besselj(1,u))./(u.*besselj(0,u));
     besselkDerivative = @(m, x) -besselk(1,x);
     besseljDerivative = @(m, x) -besselj(1,x);
 else
+    %Xm = @(m,w) (-besselk(1,w))./(w.*besselk(0,w));
+    %Ym = @(m,u) (-besselj(1,u))./(u.*besselj(0,u));
     besselkDerivative = @(m, x) (-0.5*(besselk(m-1,x)+besselk(m+1,x)));
     besseljDerivative = @(m, x) (0.5*(besselj(m-1,x)-besselj(m+1,x)));
 end
@@ -44,6 +48,8 @@ if type == "LP"
     end
 elseif type == "hybrid"
     equation = @(beta) (besseljDerivative(m, u(beta))./(u(beta).*besselj(m, u(beta))) + ( (besselkDerivative(m, w(beta)))./(w(beta).*besselk(m, w(beta))) ) ).*(besseljDerivative(m, u(beta))./(u(beta).*besselj(m, u(beta))) + (nclad/ncore)^2*( (besselkDerivative(m, w(beta)))./(w(beta).*besselk(m, w(beta))) ) )-m^2*(1./(u(beta).^2)+1./(w(beta).^2)).*(1./(u(beta).^2)+(nclad/ncore)^2*1./(w(beta).^2));
+    %B = @(beta) (w(beta).^2)./(u(beta).^2+w(beta).^2);
+    %equation = @(beta) (Xm(m,w(beta))+Ym(m,u(beta))).*(nclad^2*Xm(m,w(beta))+ncore^2*Ym(m,u(beta)))-((m*beta/k)./((u(beta)).^1.*B(beta).^1)).^2;
 else
     error('Wrong mode type!');
 end

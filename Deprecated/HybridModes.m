@@ -1,14 +1,14 @@
 clear all;clc;close all;
-a = 8.6/2;
+a = 8.3/2;
 b = a;
 neff = 1.447;
 nclad = 1.4440;
 ncore = 1.4513;DELTA=(ncore-nclad)/ncore*100;
-lambda = 0.65;
+lambda = 0.85;
 %omega = 2*pi*f;
 e0 = 8.854187e-12;
 m0 = 4*pi*1e-7;
-LP = [1,1];
+LP = [1,2];
 
 
 k = 2*pi/(lambda);LS=physconst('lightspeed');
@@ -23,8 +23,8 @@ if m==0
     besselkDerivative = @(m, x) -besselk(1,x);
     besseljDerivative = @(m, x) -besselj(1,x);
 else
-    Xm = @(m,w) (-0.5*(besselk(m-1,w)+besselk(m+1,w)))./(w.*besselk(m,w));
-    Ym = @(m,u) (0.5*(besselj(m-1,u)-besselj(m+1,u)))./(u.*besselj(m,u));
+    Xm = @(m,w) (-besselk(1,w))./(w.*besselk(0,w));
+    Ym = @(m,u) (-besselj(1,u))./(u.*besselj(0,u));
     besselkDerivative = @(m, x) (-0.5*(besselk(m-1,x)+besselk(m+1,x)));
     besseljDerivative = @(m, x) (0.5*(besselj(m-1,x)-besselj(m+1,x)));
 end
@@ -84,7 +84,7 @@ M(4,4) = M(3,3);
 Y = linsolve(M,[1;0;0;0]);
 Be = Y(3);Bh = Y(4);Ae = Y(1);Ah = Y(2);
 
-phase = pi/2;
+phase = pi/4;
 r_s = linspace(0.0001, b, 250);fi_s = linspace(0.0001, 2*pi, 250);
 P = [];Ez = [];
 for r=r_s
