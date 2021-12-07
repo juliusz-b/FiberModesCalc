@@ -1,4 +1,4 @@
-function [E_comp, H_comp, r_s, fi_s] = ModeSolver(lambda, a, b, A, ML, phase, n_s, type)
+function [E_comp, H_comp, r_s, fi_s] = ModeSolver(plothook,lambda, a, b, A, ML, phase, n_s, type)
 %Juliusz Bojarczuk 2020. Based on: https://doi.org/10.1016/B978-0-12-525096-2.X5000-4
 %lambda - wavelength
 %a - core RADIUS
@@ -68,16 +68,20 @@ end
 mode_beta(diff(mode_beta)<0.00001)=[];
 mode_beta = flip(sort(mode_beta));
 %%% plotting dispersion equation vs beta
-figure();
+%%figure();
 betas = [beta_range(1):.001:beta_range(2)];
-plot(betas, equation(betas), 'linewidth', 3);
-hold on;
-plot(mode_beta, equation(mode_beta),'o', 'linewidth', 3);
-plot(mode_beta(l), equation(mode_beta(l)),'+', 'linewidth', 1.6, 'markersize', 10, 'color', 'black');
-ylim([-1 1]);xlim(beta_range);
-xlabel('\beta');ylabel('Dispersion equation value');grid on;
-set(gca, 'fontsize', 15);
-legend({'Disp. eq.', 'Found betas', 'Chosen beta'}, 'location', 'best');
+cla(plothook,"reset");
+title(plothook,"Dispersion Equation Solution");
+plot(plothook,betas, equation(betas), 'linewidth', 3);
+hold(plothook,'on')
+plot(plothook,mode_beta, equation(mode_beta),'o', 'linewidth', 3);
+plot(plothook,mode_beta(l), equation(mode_beta(l)),'+', 'linewidth', 1.6, 'markersize', 10, 'color', 'black');
+ylim(plothook,[-1 1]);xlim(plothook,beta_range);
+xlabel(plothook,'\beta');ylabel(plothook,'Dispersion equation value');grid(plothook,"on");
+set(plothook, 'fontsize', 15);
+legend(plothook,{'Disp. eq.', 'Found betas', 'Chosen beta'}, 'location', 'best');
+hold(plothook,'off')
+title(plothook,"Dispersion Equation Solution");
 %%% choosing beta
 beta = mode_beta(l);
 %%% calculating C as it is shown in 10.1016/B978-0-12-525096-2.X5000-4
