@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.apptool" plugin-version="1.0">
-  <configuration build-checksum="1824653157" file="C:\Users\arasz\Desktop\FiberModesCalc\FiberModesCalc.prj" location="C:\Users\arasz\Desktop\FiberModesCalc" name="FiberModesCalc" target="target.mlapps" target-name="Package App">
+  <configuration build-checksum="3501521887" file="C:\Users\arasz\Desktop\FiberModesCalc\FiberModesCalc.prj" location="C:\Users\arasz\Desktop\FiberModesCalc" name="FiberModesCalc" target="target.mlapps" target-name="Package App">
     <param.appname>FiberModesCalc</param.appname>
     <param.authnamewatermark>JB core, pa gui xd</param.authnamewatermark>
     <param.email />
@@ -8,7 +8,7 @@
     <param.icons />
     <param.summary />
     <param.description />
-    <param.screenshot>C:\Users\arasz\AppData\Local\Temp\1\tp306e7371_293a_4f93_a696_257248806b52.png</param.screenshot>
+    <param.screenshot>C:\Users\arasz\AppData\Local\Temp\tp7df21484_2a86_4538_9e6c_516293e860e0.png</param.screenshot>
     <param.version>1.0</param.version>
     <param.products.name />
     <param.products.id />
